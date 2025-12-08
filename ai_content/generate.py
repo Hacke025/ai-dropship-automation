@@ -2,7 +2,7 @@ import pandas as pd
 from gpt4all import GPT4All
 import json
 
-model = GPT4All("ggml-gpt4all-j-v1.3-groovy")
+model = GPT4All("orca-mini-3b-gguf2-q4_0.gguf")
 
 def generate():
     df = pd.read_csv("storefront/products.csv")
