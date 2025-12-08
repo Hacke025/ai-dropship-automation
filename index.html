@@ -8,7 +8,7 @@
   <div id="products"></div>
 
   <script>
-    fetch("products.json")
+    fetch("storefront/products.json")
       .then(res => res.json())
       .then(data => {
         const container = document.getElementById("products");
@@ -21,7 +21,7 @@
             <br><br>
           `;
           container.appendChild(box);
-        })
+        });
       });
   </script>
 </body>
