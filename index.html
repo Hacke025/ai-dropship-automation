@@ -2,27 +2,55 @@
 <html>
 <head>
   <title>AI Drop Store</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+      background: #f9f9f9;
+    }
+    h1 { text-align: center; color: #ff4500; }
+    .product {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 20px;
+      box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+    }
+    .product h2 { font-size: 18px; margin-bottom: 8px; }
+    .product p { font-size: 14px; margin-bottom: 10px; }
+    .product a {
+      text-decoration: none;
+      color: #fff;
+      background: #ff4500;
+      padding: 8px 12px;
+      border-radius: 4px;
+    }
+  </style>
 </head>
 <body>
   <h1>🔥 AI Drop Store</h1>
   <div id="products"></div>
 
   <script>
-    fetch("storefront/products.json")
-      .then(res => res.json())
-      .then(data => {
-        const container = document.getElementById("products");
-        data.forEach(p => {
-          const box = document.createElement("div");
-          box.innerHTML = `
-            <h2>${p.title}</h2>
-            <p>${p.description}</p>
-            <a href="${p.url}" target="_blank">View Product</a>
-            <br><br>
-          `;
-          container.appendChild(box);
-        });
-      });
-  </script>
+fetch("storefront/products.json")
+  .then(res => res.json())
+  .then(data => {
+    const container = document.getElementById("products");
+    data.forEach(p => {
+      const box = document.createElement("div");
+      box.className = "product";  // add class for CSS
+      box.innerHTML = `
+        <h2>${p.title}</h2>
+        <p>${p.description}</p>
+        <a href="${p.url}" target="_blank">View Product</a>
+      `;
+      container.appendChild(box);
+    })
+  });
+</script>
+
 </body>
 </html>

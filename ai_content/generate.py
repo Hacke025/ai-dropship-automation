@@ -19,12 +19,15 @@ def generate():
 
         output = model.generate(prompt, max_tokens=200)
 
+        # Remove extra line breaks and placeholder text
+        clean_output = output.replace("\n", " ").strip()
         generated.append({
             "id": row["id"],
-            "title": row["title"],
-            "description": output,
+            "title": row["title"].split('\n')[0],  # just take the first line as title
+            "description": clean_output,
             "url": row["url"]
         })
+
 
     with open("storefront/products.json", "w") as f:
         json.dump(generated, f, indent=2)
