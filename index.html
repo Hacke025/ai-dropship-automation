@@ -1,6 +1,28 @@
 <!DOCTYPE html>
 <html>
+<head>
+  <title>AI Drop Store</title>
+</head>
 <body>
-  <h1>Storefront Test</h1>
+  <h1>🔥 AI Drop Store</h1>
+  <div id="products"></div>
+
+  <script>
+    fetch("products.json")
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById("products");
+        data.forEach(p => {
+          const box = document.createElement("div");
+          box.innerHTML = `
+            <h2>${p.title}</h2>
+            <p>${p.description}</p>
+            <a href="${p.url}" target="_blank">View Product</a>
+            <br><br>
+          `;
+          container.appendChild(box);
+        })
+      });
+  </script>
 </body>
 </html>
