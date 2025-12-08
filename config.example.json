@@ -1,0 +1,8 @@
+{
+  "store": {
+    "name": "AI Drop Store"
+  },
+  "scraper": {
+    "max_products": 20
+  }
+}
