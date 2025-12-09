@@ -8,7 +8,7 @@
       max-width: 800px;
       margin: auto;
       padding: 20px;
-      background: #f9f9f9;
+      background: #f5f5f5;
     }
     h1 { text-align: center; color: #ff4500; }
     .product {
@@ -28,6 +28,19 @@
       padding: 8px 12px;
       border-radius: 4px;
     }
+    .product-card {
+    background: white;
+    padding: 15px;
+    margin: 10px auto;
+    max-width: 700px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    a {
+      color: #ff6600;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -35,22 +48,25 @@
   <div id="products"></div>
 
   <script>
-fetch("storefront/products.json")
-  .then(res => res.json())
-  .then(data => {
     const container = document.getElementById("products");
-    data.forEach(p => {
-      const box = document.createElement("div");
-      box.className = "product";  // add class for CSS
-      box.innerHTML = `
-        <h2>${p.title}</h2>
-        <p>${p.description}</p>
-        <a href="${p.url}" target="_blank">View Product</a>
-      `;
-      container.appendChild(box);
-    })
-  });
-</script>
+
+    fetch("../products.json")
+      .then(res => res.json())
+      .then(products => {
+        products.forEach(p => {
+          const div = document.createElement("div");
+          div.className = "product-card";
+          div.innerHTML = `
+            <h2>${p.title}</h2>
+            <p>${p.description}</p>
+            <a href="${p.link}" target="_blank">View Product</a>
+            <hr/>
+          `;
+          container.appendChild(div);
+        });
+      });
+
+  </script>
 
 </body>
 </html>
