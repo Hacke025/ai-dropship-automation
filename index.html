@@ -59,12 +59,24 @@
           div.innerHTML = `
             <h2>${p.title}</h2>
             <p>${p.description}</p>
-            <a href="${p.link}" target="_blank">View Product</a>
+            <a href="${p.link}" target="_blank" onclick="trackClick('${p.title}', '${p.link}')">View Product</a>
             <hr/>
           `;
           container.appendChild(div);
         });
       });
+
+    function trackClick(product, link) {
+      fetch("https://script.google.com/macros/s/AKfycbzT8kT-77jnCgcR1KkXLeCIbmxcNfksk3qIOGtHAuhwuUVbd2XpRsVSscB5LGhMO0rA/exec", {
+        method: "POST",
+          body: JSON.stringify({
+            product: product,
+            source: "storefront",
+            link: link
+          })
+      });
+    }
+
 
   </script>
 
