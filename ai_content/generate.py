@@ -1,38 +1,50 @@
 import pandas as pd
 from gpt4all import GPT4All
 import json
+import re
 
 model = GPT4All("orca-mini-3b-gguf2-q4_0.gguf")
+
+def clean_text(text):
+    # Remove numbered lists and placeholders
+    text = re.sub(r"\d+\.", "", text)
+    text = text.replace("Product:", "").strip()
+    # Remove extra spaces
+    text = " ".join(text.split())
+    return text
 
 def generate():
     df = pd.read_csv("storefront/products.csv")
 
-    generated = []
+    products = []
     for _, row in df.iterrows():
         prompt = f"""
-        Write:
-        1. A short catchy product title
-        2. A 2 sentence product description
+Create a SHORT clean product listing:
+Title: max 6 words
+Description: max 2 short sentences
 
-        Product: {row['title']}
-        """
+Product: {row['title']}
+"""
 
-        output = model.generate(prompt, max_tokens=200)
+        output = model.generate(prompt, max_tokens=120)
+        clean = clean_text(output)
 
-        # Remove extra line breaks and placeholder text
-        clean_output = output.replace("\n", " ").strip()
-        generated.append({
+        # Split into title + description if possible
+        lines = clean.split(".")
+        title = lines[0][:60]
+        description = ". ".join(lines[1:3]).strip()
+
+        products.append({
             "id": row["id"],
-            "title": row["title"].split('\n')[0],  # just take the first line as title
-            "description": clean_output,
+            "title": title,
+            "description": description,
             "url": row["url"]
         })
 
-
     with open("storefront/products.json", "w") as f:
-        json.dump(generated, f, indent=2)
+        json.dump(products, f, indent=2)
 
-    print("✅ AI content generated")
+    print("✅ Clean AI products generated")
 
 if __name__ == "__main__":
     generate()
