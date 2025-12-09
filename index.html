@@ -50,7 +50,7 @@
   <script>
     const container = document.getElementById("products");
 
-    fetch("/products.json")
+    fetch("storefront/products.json")
       .then(res => res.json())
       .then(products => {
         products.forEach(p => {
